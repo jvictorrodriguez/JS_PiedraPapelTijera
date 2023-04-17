@@ -2,7 +2,9 @@
 var posibilidades = ["piedra", "papel", "tijera"];
 //    //
 
-
+/**
+ * Falta el botón reset y el control de partidas
+ */
 
 //Asignamos variables a elementos
 //inputs
@@ -38,8 +40,7 @@ botonJugar.addEventListener("click",function(){
     console.log("Presionaste el botón Jugar");
    //Comprobamos si los valores de los imputs son correctos y actualizamos
    //el contador de partidas
- /*   console.log("Comprobar nombre es : "+ comprobarNombre(nombres[0]));
-   console.log("ComprobarNumPartidas es : "+ numPartidas(partidas[0])); */
+
     if (comprobarNombre(nombres[0]) && comprobarNumPartidas(partidas[0])) {
         console.log("Ha entrado en el if");
         //Si ambos son correctos
@@ -84,14 +85,7 @@ botonReset.addEventListener("click",function(){
     partidas[0]=0; */
 
 
-
-
 })
-
-
-
-/* // Añado el control sobre el evento "submit" del formulario. De esta forma, la función "procesarFormulario" solo recive el evento "submit"
-document.getElementsByTagName('form')[0].addEventListener("submit", procesarFormulario, false); */
 
 
 
