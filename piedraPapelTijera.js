@@ -56,7 +56,6 @@ function generaImagen(opcion,player){
         }
         imagen = "img/"+ posibilidades[opcion]+ player+ ".png";
         if (comentarios) console.log("Proviene de función generarImagen " +  imagen);
-    
     return imagen;
 }
 
@@ -88,9 +87,9 @@ function jugar(){
 }
 
 function ya(){
+    //variables locales
     let nombres = document.getElementsByName("nombre");     //En plural pq es un array
     let eleccionMaquina=seleccionMaquina();
-    
     var ganador= comprobarGanador(eleccionJugador,eleccionMaquina,nombres[0].value);
     historial(ganador);
     contador++;
