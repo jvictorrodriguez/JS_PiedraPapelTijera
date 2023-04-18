@@ -2,7 +2,7 @@
 var posibilidades = ["piedra", "papel", "tijera"];
 
 //    //
-var comentarios=true;
+var comentarios=false;
 
 // B O T O N E S
 //Asignar variables
@@ -93,8 +93,10 @@ function jugar(){
 }
 
 function ya(){
+    let nombres = document.getElementsByName("nombre");     //En plural pq es un array
     let eleccionMaquina=seleccionMaquina();
-    var ganador= comprobarGanador(eleccionJugador,eleccionMaquina);
+    
+    var ganador= comprobarGanador(eleccionJugador,eleccionMaquina,nombres[0].value);
     historial(ganador);
     contador++;
     controlPartidas();
@@ -110,6 +112,10 @@ function reset(){
     nombres[0].focus();
     nombres[0].disabled=false;
     partidas[0].disabled=false;
+    contador=0;
+    partidasTotales=0;
+    actual.innerHTML=contador;
+    total.innerHTML=partidasTotales;
     botonJugar.disabled=false;
     botonYa.disabled=true;
     eleccionJugador=0;
@@ -175,7 +181,7 @@ function comprobarNumPartidas(partida){
 } 
 
 //Comprobar ganador //Comparar eleccionJugador con eleccionMaquina
-function comprobarGanador(eleccionJugador,eleccionMaquina){
+function comprobarGanador(eleccionJugador,eleccionMaquina,nombreJugador){
     // resultado 0-empate  1-jugador1  2-Máquina   
     var mensaje;       
        if (eleccionJugador==eleccionMaquina) resultado=0;//empate 0 
@@ -199,7 +205,7 @@ function comprobarGanador(eleccionJugador,eleccionMaquina){
        resultado=1;
        
        if(resultado==0) return "Empate";
-       else if (resultado==1) return "Ganaste";
+       else if (resultado==1) return "Gana "+ nombreJugador;
        return "Ganó la máquina"; 
 }
    
