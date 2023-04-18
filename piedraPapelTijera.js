@@ -2,7 +2,7 @@
 var posibilidades = ["piedra", "papel", "tijera"];
 
 //    //
-var comentarios=false;
+var comentarios=true;
 
 // B O T O N E S
 //Asignar variables
@@ -10,20 +10,15 @@ var botonJugar=document.getElementsByTagName("button")[0];
 var botonYa=document.getElementsByTagName("button")[1];
 var botonReset=document.getElementsByTagName("button")[2];
 
+//OTRAS VARIABLES
+var eleccionJugador;
+var contador;
+var partidasTotales;
+
 //Asignar listeners
 botonJugar.addEventListener("click",jugar);
 botonYa.addEventListener("click",ya);
 botonReset.addEventListener("click",reset);
-
-
-//Imágenes Jugador1
-let imagenes= document.getElementsByTagName("img");
-for (let i=0;i<posibilidades.length;i++){
-    imagenes[i].src="img/"+ posibilidades[i]+ "Jugador"+".png";
-    if (comentarios) console.log(imagenes[i]);
-}
-
-
 
 
 
@@ -31,11 +26,18 @@ for (let i=0;i<posibilidades.length;i++){
 reset();
 
 
+//Imágenes Jugador1         //Llama a la función generaImagen
+let imagenes= document.getElementsByTagName("img");
+for (let i=0;i<posibilidades.length;i++){
+    imagenes[i].src=generaImagen(i,"Jugador");
+    if (comentarios) console.log(imagenes[i]);
+}
+
 
 //Selección de icono Jugador1
 for(let i=0; i<posibilidades.length; i++){
     imagenes[i].onclick = function(){
-        //console.log(imagenes[i])        //Muestra por consola la imagen seleccionada
+        
         //Inicializamos los estados de las imagenes
        resetSeleccionImagen(imagenes);
         //Marcamos la seleccionada
@@ -44,9 +46,36 @@ for(let i=0; i<posibilidades.length; i++){
         //Guarda la variable eleccionJugador 
         eleccionJugador= i;
         //Muestra por consola los valores seleccionados
-        console.log("Elección jugador "+ i + posibilidades[i]);
+        if (comentarios) console.log("Elección jugador "+ i + posibilidades[i]);
     }
 }
+
+//Crear una función que me de la imagen
+//Le pasaré un valor de posición del array sin es menor a length será del player1 sino de la máquina y me devolvera el html de la imagen
+function generaImagen(opcion,player){
+        if (opcion>posibilidades.length) {
+            return "img/defecto.png"
+        }
+        imagen = "img/"+ posibilidades[opcion]+ player+ ".png";
+        if (comentarios) console.log("Proviene de función generarImagen " +  imagen);
+    
+    return imagen;
+}
+
+
+
+
+//Devuelve la imagen generada aleatoriamente del Ordenador
+function seleccionMaquina(){
+    //Selección Máquina      
+        let eleccionMaquina = Math.floor(Math.random() * posibilidades.length)
+        imagenes[posibilidades.length].src=generaImagen(eleccionMaquina,"Ordenador");
+    return eleccionMaquina;
+}
+
+
+
+
 
 // F U N C I O N E S
 function jugar(){
@@ -60,38 +89,53 @@ function jugar(){
         partidas[0].disabled=true;
         botonJugar.disabled=true;
         botonYa.disabled=false;
-        muestraNumeroPartidas(1,partidas[0].value);
+        contador=1;
+        partidasTotales=partidas[0].value;
+        controlPartidas();
     }
 }
 
 function ya(){
-    if (comentarios) console.log("Entraste en la función ya");
-    //
+
+  /*   let actual= document.getElementById("actual").innerHTML;
+    let total=document.getElementById("total").innerHTML;
+     */
+    
+    
     let eleccionMaquina=seleccionMaquina();
     var ganador= comprobarGanador(eleccionJugador,eleccionMaquina);
     historial(ganador);
-    muestraNumeroPartidas(contadorPartida,partidas[0].value);
-    
-    document.getElementById("actual").innerHTML=actual;
-    
+    contador++;
+    controlPartidas();
+   
+
 }
 
 function reset(){
-    /* console.log("Entraste en la función reset"); */
-    //Reiniciamos las variables
+    if (comentarios) console.log("Entraste en la función reset"); 
+    //Creamos nuevas variables locales
     let nombres = document.getElementsByName("nombre");     //En plural pq es un array
     let partidas = document.getElementsByName("partidas");  //En plural pq es un array
-    
+    let imagenes = document.getElementsByTagName("img");
+    //Reiniciamos las variables
+    nombres[0].focus();
     nombres[0].disabled=false;
     partidas[0].disabled=false;
     botonJugar.disabled=false;
     botonYa.disabled=true;
-    let contadorPartida=0;
+    /* let contadorPartida=0; */
     eleccionJugador=0;
     historial("Nueva Partida");
+    imagenes[posibilidades.length].src= generaImagen(posibilidades.length+1,"Ordenador");
 
 }
 
+function seAcaboLaPartida(){
+    //Bloqueamos el juego
+    console.log("Se acabó la partida");
+    botonYa.disabled=true;    
+
+}
 function resetSeleccionImagen(imagenes){
     for(let i=0; i<posibilidades.length; i++){
         imagenes[i].classList.remove("seleccionado");
@@ -101,33 +145,26 @@ function resetSeleccionImagen(imagenes){
 
 
 
-function muestraNumeroPartidas(contadorPartida, totalPartidas){
+function controlPartidas(){
     //Asignamos variables a los span de número de partidas
     let actual = document.getElementById("actual");
     let total = document.getElementById("total");
-
- 
-    //Asignamos valores a los span
-    actual.innerHTML=contadorPartida;
-    total.innerHTML=totalPartidas;
-}
-
-
-function seleccionMaquina(){
-        //Selección Máquina      
-        var imagenMaquina = []
-        for (let i=0;i<posibilidades.length;i++){
-            imagenMaquina[i]="img/"+ posibilidades[i]+ "Ordenador"+".png";
-            if (comentarios) console.log(imagenes[i]);
-        }
-       
-        
-        let eleccionMaquina = Math.floor(Math.random() * posibilidades.length)
-        imagenes[posibilidades.length].src=imagenMaquina[eleccionMaquina];
-        return eleccionMaquina;
-}
-        
     
+    console.log("contador ="+contador);
+    console.log("partidasTotales = "+ partidasTotales);
+   if (contador>partidasTotales)    {
+       console.log(contador>partidasTotales);
+       seAcaboLaPartida();
+       return;
+   }    
+        
+  
+
+    //Asignamos valores a los span
+    actual.innerHTML=contador;
+    total.innerHTML=partidasTotales;
+}
+
 
 //Función que comprobará a calidad del nombre
 //Comprobará que la longitud sea superior a 3 y que el primer carácter no sea un número
