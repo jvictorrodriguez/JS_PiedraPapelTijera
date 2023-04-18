@@ -22,6 +22,7 @@ botonReset.addEventListener("click",reset);
 
 
 
+
 //Inicia el programa
 reset();
 
@@ -63,8 +64,6 @@ function generaImagen(opcion,player){
 }
 
 
-
-
 //Devuelve la imagen generada aleatoriamente del Ordenador
 function seleccionMaquina(){
     //Selección Máquina      
@@ -75,9 +74,7 @@ function seleccionMaquina(){
 
 
 
-
-
-// F U N C I O N E S
+// F U N C I O N E S    B O T O N E S 
 function jugar(){
     if (comentarios)console.log("Entraste en la función jugar");
     let nombres = document.getElementsByName("nombre");     //En plural pq es un array
@@ -96,19 +93,11 @@ function jugar(){
 }
 
 function ya(){
-
-  /*   let actual= document.getElementById("actual").innerHTML;
-    let total=document.getElementById("total").innerHTML;
-     */
-    
-    
     let eleccionMaquina=seleccionMaquina();
     var ganador= comprobarGanador(eleccionJugador,eleccionMaquina);
     historial(ganador);
     contador++;
     controlPartidas();
-   
-
 }
 
 function reset(){
@@ -123,13 +112,14 @@ function reset(){
     partidas[0].disabled=false;
     botonJugar.disabled=false;
     botonYa.disabled=true;
-    /* let contadorPartida=0; */
     eleccionJugador=0;
     historial("Nueva Partida");
+    resetSeleccionImagen; //todo
     imagenes[posibilidades.length].src= generaImagen(posibilidades.length+1,"Ordenador");
 
 }
 
+// O T R A S   F U N C I O N E S
 function seAcaboLaPartida(){
     //Bloqueamos el juego
     console.log("Se acabó la partida");
@@ -140,26 +130,17 @@ function resetSeleccionImagen(imagenes){
     for(let i=0; i<posibilidades.length; i++){
         imagenes[i].classList.remove("seleccionado");
         imagenes[i].classList.add("noSeleccionado");
-    }
+    } 
 }
-
-
 
 function controlPartidas(){
     //Asignamos variables a los span de número de partidas
     let actual = document.getElementById("actual");
     let total = document.getElementById("total");
-    
-    console.log("contador ="+contador);
-    console.log("partidasTotales = "+ partidasTotales);
    if (contador>partidasTotales)    {
-       console.log(contador>partidasTotales);
        seAcaboLaPartida();
        return;
    }    
-        
-  
-
     //Asignamos valores a los span
     actual.innerHTML=contador;
     total.innerHTML=partidasTotales;
@@ -189,11 +170,9 @@ function comprobarNumPartidas(partida){
         partida.classList.remove("fondoRojo");
         return true;
     }
-    //console.log("error número partidas y pinta fondoRojo");
     partida.classList.add("fondoRojo");
     return false;
 } 
-
 
 //Comprobar ganador //Comparar eleccionJugador con eleccionMaquina
 function comprobarGanador(eleccionJugador,eleccionMaquina){
