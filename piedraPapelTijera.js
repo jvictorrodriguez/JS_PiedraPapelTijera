@@ -21,8 +21,6 @@ botonYa.addEventListener("click",ya);
 botonReset.addEventListener("click",reset);
 
 
-
-
 //Inicia el programa
 reset();
 
@@ -37,10 +35,9 @@ for (let i=0;i<posibilidades.length;i++){
 
 //Selección de icono Jugador1
 for(let i=0; i<posibilidades.length; i++){
-    imagenes[i].onclick = function(){
-        
+    imagenes[i].onclick = function(){       
         //Inicializamos los estados de las imagenes
-       resetSeleccionImagen(imagenes);
+        resetSeleccionImagen(imagenes);
         //Marcamos la seleccionada
         imagenes[i].classList.add("seleccionado");
         imagenes[i].classList.remove("noSeleccionado");
@@ -63,7 +60,6 @@ function generaImagen(opcion,player){
     return imagen;
 }
 
-
 //Devuelve la imagen generada aleatoriamente del Ordenador
 function seleccionMaquina(){
     //Selección Máquina      
@@ -71,7 +67,6 @@ function seleccionMaquina(){
         imagenes[posibilidades.length].src=generaImagen(eleccionMaquina,"Ordenador");
     return eleccionMaquina;
 }
-
 
 
 // F U N C I O N E S    B O T O N E S 
@@ -184,29 +179,14 @@ function comprobarNumPartidas(partida){
 function comprobarGanador(eleccionJugador,eleccionMaquina,nombreJugador){
     // resultado 0-empate  1-jugador1  2-Máquina   
     var mensaje;       
-       if (eleccionJugador==eleccionMaquina) resultado=0;//empate 0 
-       else if (eleccionJugador==0  //piedra
-       && eleccionMaquina==1) //papel
-       resultado=2;
-       else if (eleccionJugador==1   //papel 
-       && eleccionMaquina==2) //tijeras
-       resultado=2;
-       else if (eleccionJugador==2 //tijeras
-       && eleccionMaquina==0) //piedra
-       resultado=2;
-       else if (eleccionJugador==0 //piedra
-       &&eleccionMaquina==2) //tijera
-       resultado=1;
-       else if (eleccionJugador==1  //papel
-       &&  eleccionMaquina==0) //piedra
-       resultado=1;
-       else if (eleccionJugador==2  //tijera
-       &&  eleccionMaquina==1) //papel
-       resultado=1;
-       
-       if(resultado==0) return "Empate";
-       else if (resultado==1) return "Gana "+ nombreJugador;
-       return "Ganó la máquina"; 
+    //He comprobado que restando el índice de la elección entre los usuarios si es -2 o +1 gana el player1 si es 0 empate y para el  resto gana el player2
+    if (eleccionJugador-eleccionMaquina==0) 
+        return "Empate";
+    else if (eleccionJugador-eleccionMaquina==(-2) || eleccionJugador-eleccionMaquina==1) 
+        return "Gana "+ nombreJugador;
+    else
+        return "Gana la máquina";
+
 }
    
 //Anotamos registro de las  partidas
